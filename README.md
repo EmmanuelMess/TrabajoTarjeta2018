@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/dagostinoips/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/dagostinoips/TrabajoTarjeta2018)
-
-[![Coverage Status](https://coveralls.io/repos/github/dagostinoips/TrabajoTarjeta2018/badge.svg?branch=master)](https://coveralls.io/github/dagostinoips/TrabajoTarjeta2018?branch=master)
+<img src="https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018.svg?branch=master"/>
 
 # Trabajo Tarjeta: Versión 2018
 
