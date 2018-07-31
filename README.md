@@ -1,5 +1,7 @@
 <img src="https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018.svg?branch=master"/>
 
+### Equipo: Vallejos Vigier y Emmanuel Messulam
+
 # Trabajo Tarjeta: Versión 2018
 
 El siguiente trabajo es un enunciado iterativo. Todas las semanas nuevos
