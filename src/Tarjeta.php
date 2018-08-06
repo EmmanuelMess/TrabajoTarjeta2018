@@ -6,12 +6,13 @@ class Tarjeta implements TarjetaInterface {
     protected $saldo;
 
     public function recargar($monto) {
-      // Esto esta hecho mal a proposito.
-      if ($monto % 2 == 0) {
-        $this->saldo += $monto;
-      }
+        global $VALORES_CARGABLES;
 
-      return $monto % 2 == 0;
+        if(!$VALORES_CARGABLES->contains($monto)) return false;
+
+        $this->saldo += valorCargado($monto);
+
+        return true;
     }
 
     /**

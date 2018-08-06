@@ -4,8 +4,11 @@
         "satooshi/php-coveralls": "^1.0"
     },
     "autoload": {
+        "files": ["src/Constantes.php"],
         "psr-4": {
-            "TrabajoTarjeta\\": "src"
+            "TrabajoTarjeta\\": "src",
+            "Ds\\": "src/Ds",
+            "Ds\\Traits\\": "src/Ds/Traits"
         }
     }
 }
