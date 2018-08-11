@@ -10,6 +10,6 @@ class BoletoTest extends TestCase {
 		$val = [10,20,30,50,100,510.15,962.59];
         $valor = 14.80;
         $boleto = new Boleto($valor, NULL, NULL);
-        $this->assertEquals($boleto->obtenerValor(), $valor);
+        $this->assertEquals($valor,$boleto->obtenerValor());
     }
 }
