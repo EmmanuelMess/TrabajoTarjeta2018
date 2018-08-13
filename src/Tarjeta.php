@@ -10,8 +10,6 @@ class Tarjeta implements TarjetaInterface {
 
         if(!$VALORES_CARGABLES->contains($monto)) return false;
 
-		if($monto==510.15){$this->saldo+=(510.15+81.93);return true;}
-		if($monto==962.59){$this->saldo+=(962.59+221.58);return true;}
         $this->saldo += valorCargado($monto);
 
         return true;
