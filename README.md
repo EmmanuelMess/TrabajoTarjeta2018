@@ -1,4 +1,4 @@
-<img src="https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018.svg?branch=master"/>
+[![Build Status](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018)
 
 ### Equipo: Vallejos Vigier y Emmanuel Messulam
 
