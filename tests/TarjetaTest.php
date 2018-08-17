@@ -47,7 +47,5 @@ class TarjetaTest extends TestCase {
                 $this->assertEquals(0,$tarjeta->obtenerSaldo());
             }
         }
-
     }
 }
-

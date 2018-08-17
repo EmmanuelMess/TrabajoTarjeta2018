@@ -8,8 +8,23 @@ class Boleto implements BoletoInterface {
 
     protected $colectivo;
 
+    protected $tarjeta;
+
     public function __construct($valor, $colectivo, $tarjeta) {
-        $this->valor = $valor;
+	$this->valor = $valor;
+	$this->colectivo = $colectivo;
+	$this->tarjeta = $tarjeta;
+	$verificador = $tarjeta->saberClase();
+
+	if($verificador->obtenerTipo()==2)
+	{ 
+		$this->valor = $valor/2;
+	}
+	
+	if($verificador->obtenerTipo()==3)
+	{ 
+		$this->valor = 0.0;
+	}
     }
 
     /**
@@ -30,4 +45,7 @@ class Boleto implements BoletoInterface {
         return $this->colectivo;
     }
 
+	    public function obtenerTarjeta() {
+        return $this->tarjeta;
+    }
 }
