@@ -51,10 +51,7 @@ class Colectivo implements ColectivoInterface {
      *  suficiente en la tarjeta.
      */
     public function pagarCon(TarjetaInterface $tarjeta) {
-        global $PRECIO_VIAJE;
-
-        if($tarjeta->obtenerSaldo() < $PRECIO_VIAJE) return false;
-        return new Boleto($PRECIO_VIAJE, $this->linea, $tarjeta);
+        if(!$tarjeta->disminuirSaldo()) return false;
+        return new Boleto($tarjeta->getPrecio(), $this->linea, $tarjeta);
     }
-
 }

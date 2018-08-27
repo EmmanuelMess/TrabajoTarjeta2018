@@ -8,8 +8,12 @@ class Boleto implements BoletoInterface {
 
     protected $colectivo;
 
+    protected $tarjeta;
+
     public function __construct($valor, $colectivo, $tarjeta) {
         $this->valor = $valor;
+        $this->colectivo = $colectivo;
+        $this->tarjeta = $tarjeta;
     }
 
     /**
@@ -30,4 +34,7 @@ class Boleto implements BoletoInterface {
         return $this->colectivo;
     }
 
+    public function obtenerTarjeta() {
+        return $this->tarjeta;
+    }
 }
