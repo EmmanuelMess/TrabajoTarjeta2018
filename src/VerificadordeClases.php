@@ -4,24 +4,22 @@ namespace TrabajoTarjeta;
 
 class VerificadordeClases {
 
-	protected $tipo;
+    protected $tipo;
 
     public function __construct($tarjeta) {
 
-	$this->tipo = 1;
+        $this->tipo = 1;
 
-    if($tarjeta instanceof FranquiciaMedio)
-	{ 
-		$this->tipo = 2;
-	}
-	
-	if($tarjeta instanceof FranquiciaCompleta)
-	{ 
-		$this->tipo = 3;
-	}
+        if ($tarjeta instanceof FranquiciaMedio) {
+            $this->tipo = 2;
+        }
+
+        if ($tarjeta instanceof FranquiciaCompleta) {
+            $this->tipo = 3;
+        }
     }
 
-	public function obtenerTipo(){
-		return $this->tipo;
-	}
+    public function obtenerTipo() {
+        return $this->tipo;
+    }
 }
