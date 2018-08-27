@@ -4,6 +4,7 @@ namespace TrabajoTarjeta;
 
 class Tarjeta implements TarjetaInterface {
     protected $saldo;
+    protected $boletosPlusUsados;
 
     public function recargar($monto) {
         global $VALORES_CARGABLES;
@@ -23,7 +24,23 @@ class Tarjeta implements TarjetaInterface {
     }
 
     public function disminuirSaldo() {
-        if($this->obtenerSaldo() - $this->getPrecio() < 0) return false;
+        global $MAX_PLUS;
+        if($this->getPrecio() == 0) return true;
+
+        if($this->obtenerSaldo() - $this->getPrecio() < 0) {
+            if($this->boletosPlusUsados > $MAX_PLUS) return false;
+
+            $this->boletosPlusUsados++;
+            return true;
+        }
+
+        if($this->boletosPlusUsados > 0) {
+            if($this->saldo - 3*$this->getPrecio() < 0) return false;
+
+            $this->saldo -= 2*$this->getPrecio();
+            $this->boletosPlusUsados = 0;
+        }
+
         $this->saldo -= $this->getPrecio();
         return true;
     }

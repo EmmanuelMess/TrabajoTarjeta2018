@@ -4,6 +4,8 @@ namespace TrabajoTarjeta;
 
 use Ds\Set;
 
+global $MAX_PLUS;
+$MAX_PLUS = 2;
 global $PRECIO_VIAJE;
 $PRECIO_VIAJE = 14.80;
 global $PRECIO_MEDIO_BOLETO;

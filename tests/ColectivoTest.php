@@ -58,14 +58,18 @@ class ColectivoTest extends TestCase {
     }
 
     public function testPagarsin() {
-        $valor = 14.80;
+        global $MAX_PLUS;
 
         $linea = '107 Fonavi';
         $empresa = 'Rosario Bus';
         $numero = 13;
 
         $tarjeta = new Tarjeta;
+        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjeta->disminuirSaldo();
+
         $tarjetaMedio = new FranquiciaMedio;
+        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjetaMedio->disminuirSaldo();
+
         $tarjetaCompleta = new FranquiciaCompleta;
 
         $colectivo = new Colectivo($linea, $empresa, $numero);

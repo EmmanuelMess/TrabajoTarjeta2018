@@ -48,4 +48,42 @@ class TarjetaTest extends TestCase {
             }
         }
     }
+
+    /**
+     * Comprueba que la tarjeta puede pagar pluses
+     */
+    public function testPlus() {
+        global $MAX_PLUS;
+
+        $tarjeta = new Tarjeta;
+        $tarjetaMedio = new FranquiciaMedio;
+
+        for($i = 0; $i <= $MAX_PLUS; $i++) {
+            $this->assertTrue($tarjeta->disminuirSaldo());
+            $this->assertTrue($tarjetaMedio->disminuirSaldo());
+        }
+
+        $this->assertFalse($tarjeta->disminuirSaldo());
+        $this->assertFalse($tarjetaMedio->disminuirSaldo());
+
+        $tarjeta->recargar(100);
+        $this->assertTrue($tarjeta->disminuirSaldo());
+        $this->assertEquals(100 - $tarjeta->getPrecio()*3, $tarjeta->obtenerSaldo());
+
+        $tarjetaMedio->recargar(100);
+        $this->assertTrue($tarjetaMedio->disminuirSaldo());
+        $this->assertEquals(100 - $tarjetaMedio->getPrecio()*3, $tarjetaMedio->obtenerSaldo());
+    }
+
+    public function testFranquiciaCompleta() {
+        global $MAX_PLUS;
+
+        $tarjetaCompleto = new FranquiciaCompleta;
+
+        for($i = 0; $i <= $MAX_PLUS; $i++) {
+            $this->assertTrue($tarjetaCompleto->disminuirSaldo());
+        }
+
+        $this->assertTrue($tarjetaCompleto->disminuirSaldo());
+    }
 }
