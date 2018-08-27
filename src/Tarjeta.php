@@ -8,12 +8,8 @@ class Tarjeta implements TarjetaInterface {
     public function recargar($monto) {
         global $VALORES_CARGABLES;
 
-        if(!$VALORES_CARGABLES->contains($monto)) return false;
-
-		
-        
+        if (!$VALORES_CARGABLES->contains($monto)) return false;
         $this->saldo += valorCargado($monto);
-
         return true;
     }
 
@@ -23,7 +19,17 @@ class Tarjeta implements TarjetaInterface {
      * @return float
      */
     public function obtenerSaldo() {
-      return $this->saldo;
+        return $this->saldo;
     }
 
+    public function disminuirSaldo() {
+        if($this->obtenerSaldo() - $this->getPrecio() < 0) return false;
+        $this->saldo -= $this->getPrecio();
+        return true;
+    }
+
+    public function getPrecio() {
+        global $PRECIO_VIAJE;
+        return $PRECIO_VIAJE;
+    }
 }

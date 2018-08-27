@@ -20,16 +20,16 @@ class TarjetaTest extends TestCase {
             if (in_array($valorsaldo, $val)) {
                 $this->assertTrue($tarjeta->recargar($valorsaldo));
                 $saldo += $valorsaldo;
-                $this->assertEquals($saldo,$tarjeta->obtenerSaldo());
+                $this->assertEquals($saldo, $tarjeta->obtenerSaldo());
             }
         }
         $this->assertTrue($tarjeta->recargar($valf));
         $saldo += ($valf + 81.93);
-        $this->assertEquals($saldo,$tarjeta->obtenerSaldo());
+        $this->assertEquals($saldo, $tarjeta->obtenerSaldo());
 
         $this->assertTrue($tarjeta->recargar($valff));
         $saldo += ($valff + 221.58);
-        $this->assertEquals($saldo,$tarjeta->obtenerSaldo());
+        $this->assertEquals($saldo, $tarjeta->obtenerSaldo());
 
     }
 
@@ -44,10 +44,8 @@ class TarjetaTest extends TestCase {
         for ($valorsaldo; $valorsaldo < 1000; $valorsaldo++) {
             if (!in_array($valorsaldo, $val)) {
                 $this->assertFalse($tarjeta->recargar($valorsaldo));
-                $this->assertEquals(0,$tarjeta->obtenerSaldo());
+                $this->assertEquals(0, $tarjeta->obtenerSaldo());
             }
         }
-
     }
 }
-

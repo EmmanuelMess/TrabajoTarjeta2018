@@ -22,4 +22,15 @@ interface TarjetaInterface {
      */
     public function obtenerSaldo();
 
+    /**
+     * Resta un boleto de precio #getPrecio()
+     */
+    public function disminuirSaldo();
+
+    /**
+     * Precio del boleto
+     * @return Float
+     */
+    public function getPrecio();
+
 }
