@@ -14,15 +14,6 @@ class Boleto implements BoletoInterface {
         $this->valor = $valor;
         $this->colectivo = $colectivo;
         $this->tarjeta = $tarjeta;
-        $verificador = $tarjeta->saberClase();
-
-        if ($verificador->obtenerTipo() == 2) {
-            $this->valor = $valor / 2;
-        }
-
-        if ($verificador->obtenerTipo() == 3) {
-            $this->valor = 0.0;
-        }
     }
 
     /**

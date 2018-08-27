@@ -23,20 +23,13 @@ class Tarjeta implements TarjetaInterface {
     }
 
     public function disminuirSaldo() {
-        $verificador = $this->saberClase();
-
-        if ($verificador->obtenerTipo() == 2) {
-            $this->saldo -= 7.40;
-        } else {
-            if ($verificador->obtenerTipo() == 3) {
-                $this->saldo -= 0;
-            } else {
-                $this->saldo -= 14.80;
-            }
-        }
+        if($this->obtenerSaldo() - $this->getPrecio() < 0) return false;
+        $this->saldo -= $this->getPrecio();
+        return true;
     }
 
-    public function saberClase() {
-        return new VerificadordeClases ($this);
+    public function getPrecio() {
+        global $PRECIO_VIAJE;
+        return $PRECIO_VIAJE;
     }
 }

@@ -10,13 +10,18 @@ class BoletoTest extends TestCase {
     public function testSaldo() {
         $valor = 14.80;
 
-        $tarjeta = new Tarjeta;
-        $tarjetaMedio = new FranquiciaMedio;
-        $tarjetaCompleta = new FranquiciaCompleta;
+        $colectivo = new Colectivo(NULL, NULL, NULL);
 
-        $boleto = new Boleto($valor, NULL, $tarjeta);
-        $boletoMedio = new Boleto($valor, NULL, $tarjetaMedio);
-        $boletoCompleto = new Boleto($valor, NULL, $tarjetaCompleta);
+        $tarjeta = new Tarjeta;
+        $tarjeta->recargar(100);
+        $tarjetaMedio = new FranquiciaMedio;
+        $tarjetaMedio->recargar(100);
+        $tarjetaCompleta = new FranquiciaCompleta;
+        $tarjetaCompleta->recargar(100);
+
+        $boleto = $colectivo->pagarCon($tarjeta);
+        $boletoMedio = $colectivo->pagarCon($tarjetaMedio);
+        $boletoCompleto = $colectivo->pagarCon($tarjetaCompleta);
 
         $this->assertEquals($valor, $boleto->obtenerValor());
         $this->assertEquals($valor / 2, $boletoMedio->obtenerValor());
@@ -28,15 +33,13 @@ class BoletoTest extends TestCase {
      * Testeamos que los boletos con diferentes valores correspondan a sus respectivas tarjetas
      */
     public function testTarjeta() {
-        $valor = 14.80;
-
         $tarjeta = new Tarjeta;
         $tarjetaMedio = new FranquiciaMedio;
         $tarjetaCompleta = new FranquiciaCompleta;
 
-        $boleto = new Boleto($valor, NULL, $tarjeta);
-        $boletoMedio = new Boleto($valor, NULL, $tarjetaMedio);
-        $boletoCompleto = new Boleto($valor, NULL, $tarjetaCompleta);
+        $boleto = new Boleto(NULL, NULL, $tarjeta);
+        $boletoMedio = new Boleto(NULL, NULL, $tarjetaMedio);
+        $boletoCompleto = new Boleto(NULL, NULL, $tarjetaCompleta);
 
         $this->assertEquals($tarjeta, $boleto->obtenerTarjeta());
         $this->assertEquals($tarjetaMedio, $boletoMedio->obtenerTarjeta());

@@ -43,8 +43,8 @@ class ColectivoTest extends TestCase {
         $tarjetaCompleta->recargar($valorsaldo);
 
         $boleto = new Boleto($valor, $linea, $tarjeta);
-        $boletoMedio = new Boleto($valor, $linea, $tarjetaMedio);
-        $boletoCompleto = new Boleto($valor, $linea, $tarjetaCompleta);
+        $boletoMedio = new Boleto($valor/2, $linea, $tarjetaMedio);
+        $boletoCompleto = new Boleto(0.0, $linea, $tarjetaCompleta);
 
         $colectivo = new Colectivo($linea, $empresa, $numero);
 
@@ -52,23 +52,9 @@ class ColectivoTest extends TestCase {
         $this->assertEquals($boletoMedio, $colectivo->pagarCon($tarjetaMedio));
         $this->assertEquals($boletoCompleto, $colectivo->pagarCon($tarjetaCompleta));
 
-        $this->assertEquals(14.80, $boleto->obtenerValor());
-        $this->assertEquals(7.40, $boletoMedio->obtenerValor());
-        $this->assertEquals(0.0, $boletoCompleto->obtenerValor());
-
         $this->assertEquals($valorsaldo - $boleto->obtenerValor(), $tarjeta->obtenerSaldo());
         $this->assertEquals($valorsaldo - $boletoMedio->obtenerValor(), $tarjetaMedio->obtenerSaldo());
         $this->assertEquals($valorsaldo - $boletoCompleto->obtenerValor(), $tarjetaCompleta->obtenerSaldo());
-
-        $verificadorTarjeta = $tarjeta->saberClase();
-        $verificadorTarjetaMedio = $tarjetaMedio->saberClase();
-        $verificadorTarjetaComplet = $tarjetaCompleta->saberClase();
-
-        $this->assertEquals(1, $verificadorTarjeta->obtenerTipo());
-        $this->assertEquals(2, $verificadorTarjetaMedio->obtenerTipo());
-        $this->assertEquals(3, $verificadorTarjetaComplet->obtenerTipo());
-
-
     }
 
     public function testPagarsin() {
@@ -84,7 +70,7 @@ class ColectivoTest extends TestCase {
 
         $colectivo = new Colectivo($linea, $empresa, $numero);
 
-        $boletoCompleto = new Boleto($valor, $linea, $tarjetaCompleta);
+        $boletoCompleto = new Boleto(0.0, $linea, $tarjetaCompleta);
 
         $this->assertEquals(false, $colectivo->pagarCon($tarjeta));
         $this->assertEquals(false, $colectivo->pagarCon($tarjetaMedio));
