@@ -1,14 +1,15 @@
 {
+    "require": {
+        "php-ds/php-ds": "^1.2"
+    },
     "require-dev": {
         "phpunit/phpunit": "^6.3",
-        "satooshi/php-coveralls": "^1.0"
+        "php-coveralls/php-coveralls": "^1.0"
     },
     "autoload": {
         "files": ["src/Constantes.php"],
         "psr-4": {
-            "TrabajoTarjeta\\": "src",
-            "Ds\\": "src/Ds",
-            "Ds\\Traits\\": "src/Ds/Traits"
+            "TrabajoTarjeta\\": "src"
         }
     }
 }
