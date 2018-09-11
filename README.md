@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018)
+[![Build Status](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018) [![Coverage Status](https://coveralls.io/repos/github/EmmanuelMess/TrabajoTarjeta2018/badge.svg?branch=master)](https://coveralls.io/github/EmmanuelMess/TrabajoTarjeta2018?branch=master)
 
 ### Equipo: Vallejos Vigier y Emmanuel Messulam
 
