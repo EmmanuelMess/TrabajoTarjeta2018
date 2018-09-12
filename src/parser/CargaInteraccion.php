@@ -3,6 +3,8 @@
 namespace TrabajoTarjeta\Parser;
 
 
+use TrabajoTarjeta\Tarjeta;
+
 class CargaInteraccion extends Interaccion {
 
     private $carga;
@@ -11,6 +13,10 @@ class CargaInteraccion extends Interaccion {
         parent::__construct($tiempo);
 
         $this->carga = $carga;
+    }
+
+    public function correrInteraccion(Tarjeta $tarjeta) {
+        $tarjeta->recargar($tarjeta);
     }
 
     //DE ACA PARA TESTS -----------------------------------------------
