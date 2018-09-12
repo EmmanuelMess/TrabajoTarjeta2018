@@ -20,7 +20,7 @@ class Reciever {
         $decoded = json_decode($json);
         if($decoded === null) throw new InvalidArgumentException("Json invalido!");
 
-        $this->tarjeta = $this->createTarjeta($decoded->TarjetaInicial->Tipo);
+        $this->tarjeta = $this->createTarjeta($decoded->TarjetaInicial->Tipo, $decoded->TarjetaInicial->Id);
         $this->interacciones = [];
 
         foreach($decoded->Interacciones as $interaccion) {
@@ -28,7 +28,7 @@ class Reciever {
         }
     }
 
-    private function createTarjeta(int $tipo): Tarjeta {
+    private function createTarjeta(int $tipo, int $id): Tarjeta {
         switch ($tipo) {
             case Reciever::TARJETA_NORMAL:
                 return new Tarjeta;

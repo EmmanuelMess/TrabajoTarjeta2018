@@ -14,11 +14,12 @@ class RecieverTest extends TestCase {
         $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Reciever::TARJETA_COMPLETO));
     }
 
-    private function crearTarjeta(int $tipo): Tarjeta {
+    private function crearTarjeta(int $tipo, int $id): Tarjeta {
         $json =
             "{
                 \"TarjetaInicial\": {
-                    \"Tipo\": ".$tipo."
+                    \"Tipo\": ".$tipo.",
+                    \"Id\": ".$id."
                 },
                 \"Interacciones\": []
             }";
@@ -50,7 +51,8 @@ class RecieverTest extends TestCase {
         $json =
             "{
                 \"TarjetaInicial\": {
-                    \"Tipo\": ".Reciever::TARJETA_NORMAL."
+                    \"Tipo\": ".Reciever::TARJETA_NORMAL.",
+                    \"Id\": 20
                 }, 
                 \"Interacciones\": [
                     {
