@@ -14,13 +14,18 @@ class Reciever {
     const TARJETA_COMPLETO = 2;
 
     private $tarjeta;
-
+    private $interacciones;
 
     public function __construct(string $json) {
         $decoded = json_decode($json);
         if($decoded === null) throw new InvalidArgumentException("Json invalido!");
 
         $this->tarjeta = $this->createTarjeta($decoded->TarjetaInicial->Tipo);
+        $this->interacciones = [];
+
+        foreach($decoded->Interacciones as $interaccion) {
+            $this->interacciones[] = $this->crearInteraccion($interaccion);
+        }
     }
 
     private function createTarjeta(int $tipo): Tarjeta {
@@ -37,6 +42,17 @@ class Reciever {
     }
 
 
+    private function crearInteraccion($interaccion): Interaccion {
+        switch ($interaccion->Tipo) {
+            case Interaccion::INTERACCION_PAGO:
+                return new PagoInteraccion($interaccion->Tiempo);
+            case Interaccion::INTERACCION_CARGA:
+                return new CargaInteraccion($interaccion->Carga, $interaccion->Tiempo);
+            default:
+                throw new InvalidArgumentException($interaccion->Tipo." es invalido!");
+        }
+    }
+
     /*
      * -------------------------------------------------------------------
      * DE ACA PARA TESTS
@@ -45,5 +61,9 @@ class Reciever {
 
     public function getTarjeta(): Tarjeta {
         return $this->tarjeta;
+    }
+
+    public function getInteracciones(): array {
+        return $this->interacciones;
     }
 }
