@@ -4,14 +4,14 @@ use PHPUnit\Framework\TestCase;
 use TrabajoTarjeta\Parser\CargaInteraccion;
 use TrabajoTarjeta\Parser\Interaccion;
 use TrabajoTarjeta\Parser\PagoInteraccion;
-use TrabajoTarjeta\Parser\Reciever;
+use TrabajoTarjeta\Parser\Parser;
 use TrabajoTarjeta\Tarjeta;
 
-class RecieverTest extends TestCase {
+class ParserTest extends TestCase {
     public function testTarjeta() {
-        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Reciever::TARJETA_NORMAL));
-        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Reciever::TARJETA_MEDIO));
-        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Reciever::TARJETA_COMPLETO));
+        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_NORMAL));
+        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_MEDIO));
+        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_COMPLETO));
     }
 
     private function crearTarjeta(int $tipo, int $id): Tarjeta {
@@ -24,7 +24,7 @@ class RecieverTest extends TestCase {
                 \"Interacciones\": []
             }";
 
-        $reciever = new Reciever($json);
+        $reciever = new Parser($json);
 
         return $reciever->getTarjeta();
     }
@@ -33,7 +33,7 @@ class RecieverTest extends TestCase {
 
     public function testInteraccionPago() {
         $tiempo = 5555555;
-        $interaccion = $this->crearInteraccion(Interaccion::INTERACCION_PAGO, RecieverTest::CARGA_NULA, $tiempo);
+        $interaccion = $this->crearInteraccion(Interaccion::INTERACCION_PAGO, ParserTest::CARGA_NULA, $tiempo);
         $this->assertInstanceOf(PagoInteraccion::class, $interaccion);
         $this->assertEquals($tiempo, $interaccion->getTiempo());
     }
@@ -51,14 +51,14 @@ class RecieverTest extends TestCase {
         $json =
             "{
                 \"TarjetaInicial\": {
-                    \"Tipo\": ".Reciever::TARJETA_NORMAL.",
+                    \"Tipo\": ".Parser::TARJETA_NORMAL.",
                     \"Id\": 20
                 }, 
                 \"Interacciones\": [
                     {
                         \"Tipo\": ".$tipo.",";
 
-        if($carga != RecieverTest::CARGA_NULA) {
+        if($carga != ParserTest::CARGA_NULA) {
             $json = $json.
                         "\"Carga\": ".$carga.",";
         }
@@ -69,7 +69,7 @@ class RecieverTest extends TestCase {
                 ]
             }";
 
-        $reciever = new Reciever($json);
+        $reciever = new Parser($json);
 
         return $reciever->getInteracciones()[0];
     }

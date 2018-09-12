@@ -7,7 +7,7 @@ use \TrabajoTarjeta\Tarjeta;
 use \TrabajoTarjeta\FranquiciaMedio;
 use \TrabajoTarjeta\FranquiciaCompleta;
 
-class Reciever {
+class Parser {
 
     const TARJETA_NORMAL = 0;
     const TARJETA_MEDIO = 1;
@@ -30,11 +30,11 @@ class Reciever {
 
     private function createTarjeta(int $tipo, int $id): Tarjeta {
         switch ($tipo) {
-            case Reciever::TARJETA_NORMAL:
+            case Parser::TARJETA_NORMAL:
                 return new Tarjeta;
-            case Reciever::TARJETA_MEDIO:
+            case Parser::TARJETA_MEDIO:
                 return new FranquiciaMedio;
-            case Reciever::TARJETA_COMPLETO:
+            case Parser::TARJETA_COMPLETO:
                 return new FranquiciaCompleta;
             default:
                 throw new InvalidArgumentException($tipo." es invalido!");
