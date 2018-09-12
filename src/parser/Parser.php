@@ -53,12 +53,6 @@ class Parser {
         }
     }
 
-    /*
-     * -------------------------------------------------------------------
-     * DE ACA PARA TESTS
-     * NO USAR
-     */
-
     public function getTarjeta(): Tarjeta {
         return $this->tarjeta;
     }
