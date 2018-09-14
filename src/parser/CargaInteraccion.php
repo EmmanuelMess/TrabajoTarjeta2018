@@ -16,7 +16,7 @@ class CargaInteraccion extends Interaccion {
     }
 
     public function correrInteraccion(Tarjeta $tarjeta) {
-        $tarjeta->recargar($tarjeta);
+        $tarjeta->recargar($this->carga);
     }
 
     //DE ACA PARA TESTS -----------------------------------------------
