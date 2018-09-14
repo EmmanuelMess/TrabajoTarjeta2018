@@ -14,20 +14,20 @@ class TarjetaTest extends TestCase {
         $valf = 510.15;
         $valff = 962.59;
         $tarjeta = new Tarjeta;
-        $valorsaldo = 1;
+        $valorsaldo = 1.;
         $saldo = 0;
         for ($valorsaldo; $valorsaldo < 1000; $valorsaldo++) {
             if (in_array($valorsaldo, $val)) {
-                $this->assertTrue($tarjeta->recargar($valorsaldo));
+                $this->assertTrue($tarjeta->recargar($valorsaldo, 0));
                 $saldo += $valorsaldo;
                 $this->assertEquals($saldo, $tarjeta->obtenerSaldo());
             }
         }
-        $this->assertTrue($tarjeta->recargar($valf));
+        $this->assertTrue($tarjeta->recargar($valf, 0));
         $saldo += ($valf + 81.93);
         $this->assertEquals($saldo, $tarjeta->obtenerSaldo());
 
-        $this->assertTrue($tarjeta->recargar($valff));
+        $this->assertTrue($tarjeta->recargar($valff, 0));
         $saldo += ($valff + 221.58);
         $this->assertEquals($saldo, $tarjeta->obtenerSaldo());
 
@@ -38,12 +38,12 @@ class TarjetaTest extends TestCase {
      */
     public function testCargaSaldoInvalido() {
         $tarjeta = new Tarjeta;
-        $valorsaldo = 1;
+        $valorsaldo = 1.;
         $val = [0, 10, 20, 30, 50, 100];
 
         for ($valorsaldo; $valorsaldo < 1000; $valorsaldo++) {
             if (!in_array($valorsaldo, $val)) {
-                $this->assertFalse($tarjeta->recargar($valorsaldo));
+                $this->assertFalse($tarjeta->recargar($valorsaldo, 0));
                 $this->assertEquals(0, $tarjeta->obtenerSaldo());
             }
         }
@@ -59,19 +59,19 @@ class TarjetaTest extends TestCase {
         $tarjetaMedio = new FranquiciaMedio;
 
         for($i = 0; $i <= $MAX_PLUS; $i++) {
-            $this->assertTrue($tarjeta->disminuirSaldo());
-            $this->assertTrue($tarjetaMedio->disminuirSaldo());
+            $this->assertTrue($tarjeta->disminuirSaldo(0));
+            $this->assertTrue($tarjetaMedio->disminuirSaldo(0));
         }
 
-        $this->assertFalse($tarjeta->disminuirSaldo());
-        $this->assertFalse($tarjetaMedio->disminuirSaldo());
+        $this->assertFalse($tarjeta->disminuirSaldo(0));
+        $this->assertFalse($tarjetaMedio->disminuirSaldo(0));
 
-        $tarjeta->recargar(100);
-        $this->assertTrue($tarjeta->disminuirSaldo());
+        $tarjeta->recargar(100, 0);
+        $this->assertTrue($tarjeta->disminuirSaldo(0));
         $this->assertEquals(100 - $tarjeta->getPrecio()*3, $tarjeta->obtenerSaldo());
 
-        $tarjetaMedio->recargar(100);
-        $this->assertTrue($tarjetaMedio->disminuirSaldo());
+        $tarjetaMedio->recargar(100, 0);
+        $this->assertTrue($tarjetaMedio->disminuirSaldo(0));
         $this->assertEquals(100 - $tarjetaMedio->getPrecio()*3, $tarjetaMedio->obtenerSaldo());
     }
 
@@ -81,9 +81,9 @@ class TarjetaTest extends TestCase {
         $tarjetaCompleto = new FranquiciaCompleta;
 
         for($i = 0; $i <= $MAX_PLUS; $i++) {
-            $this->assertTrue($tarjetaCompleto->disminuirSaldo());
+            $this->assertTrue($tarjetaCompleto->disminuirSaldo(0));
         }
 
-        $this->assertTrue($tarjetaCompleto->disminuirSaldo());
+        $this->assertTrue($tarjetaCompleto->disminuirSaldo(0));
     }
 }

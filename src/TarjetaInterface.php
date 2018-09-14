@@ -13,7 +13,7 @@ interface TarjetaInterface {
      *   Devuelve TRUE si el monto a cargar es válido, o FALSE en caso de que no
      *   sea valido.
      */
-    public function recargar($monto);
+    public function recargar($monto, int $tiempo);
 
     /**
      * Devuelve el saldo que le queda a la tarjeta.
@@ -25,7 +25,7 @@ interface TarjetaInterface {
     /**
      * Resta un boleto de precio #getPrecio()
      */
-    public function disminuirSaldo();
+    public function disminuirSaldo(int $tiempo);
 
     /**
      * Precio del boleto

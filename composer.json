@@ -7,9 +7,10 @@
         "php-coveralls/php-coveralls": "^1.0"
     },
     "autoload": {
-        "files": ["src/Constantes.php"],
+        "files": ["src/Constantes.php", "src/parser/Simulacion.php"],
         "psr-4": {
-            "TrabajoTarjeta\\": "src"
+            "TrabajoTarjeta\\": "src",
+            "TrabajoTarjeta\\Parser\\": "src/parser"
         }
     }
 }
