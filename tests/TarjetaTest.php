@@ -58,9 +58,13 @@ class TarjetaTest extends TestCase {
         $tarjeta = new Tarjeta;
         $tarjetaMedio = new FranquiciaMedio;
 
+        $tiempo = 0;
+
         for($i = 0; $i < $MAX_PLUS; $i++) {
-            $this->assertFalse($tarjeta->generarPago(0)->FALLO);
-            $this->assertFalse($tarjetaMedio->generarPago(0)->FALLO);
+            $this->assertFalse($tarjeta->generarPago($tiempo)->FALLO);
+            $this->assertFalse($tarjetaMedio->generarPago($tiempo)->FALLO);
+
+            $tiempo += TiempoAyudante::CINCO_MINUTOS;
         }
 
         $this->assertTrue($tarjeta->generarPago(0)->FALLO);
@@ -71,8 +75,32 @@ class TarjetaTest extends TestCase {
         $this->assertEquals(100 - $tarjeta->getPrecio(0)->PRECIO*3, $tarjeta->obtenerSaldo());
 
         $tarjetaMedio->recargar(100, 0);
-        $this->assertFalse($tarjetaMedio->generarPago(0)->FALLO);
+        $this->assertFalse($tarjetaMedio->generarPago($tiempo)->FALLO);
         $this->assertEquals(100 - $tarjetaMedio->getPrecio(0)->PRECIO*3, $tarjetaMedio->obtenerSaldo());
+    }
+
+    public function testTiempoPago() {
+        $tarjetaMedio = new FranquiciaMedio;
+
+        $this->assertFalse($tarjetaMedio->generarPago(0)->FALLO);
+        $this->assertTrue($tarjetaMedio->generarPago(0)->FALLO);
+    }
+
+    public function testFranquiciaDosAlDia() {
+        global $PRECIO_VIAJE;
+        global $PRECIO_MEDIO_BOLETO;
+
+        $tarjetaMedio = new FranquiciaMedio();
+
+        $tarjetaMedio->recargar(100, 0);
+
+        $this->assertEquals($PRECIO_MEDIO_BOLETO, $tarjetaMedio->generarPago(0)->PRECIO->PRECIO);
+
+        $this->assertEquals($PRECIO_MEDIO_BOLETO, $tarjetaMedio->generarPago(TiempoAyudante::CINCO_MINUTOS)->PRECIO->PRECIO);
+
+        $this->assertEquals($PRECIO_VIAJE, $tarjetaMedio->generarPago(TiempoAyudante::CINCO_MINUTOS*2)->PRECIO->PRECIO);
+
+        $this->assertEquals($PRECIO_MEDIO_BOLETO, $tarjetaMedio->generarPago(TiempoAyudante::UN_DIA*2)->PRECIO->PRECIO);
     }
 
     public function testFranquiciaCompleta() {

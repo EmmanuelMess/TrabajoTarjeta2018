@@ -5,6 +5,7 @@ namespace TrabajoTarjeta;
 class Tarjeta implements TarjetaInterface {
     protected $saldo = 0;
     protected $boletosPlusUsados = 0;
+    protected $ultTiempo = -TiempoAyudante::CINCO_MINUTOS - 1;
 
     public function recargar($monto, int $tiempo) {
         global $VALORES_CARGABLES;
@@ -19,7 +20,26 @@ class Tarjeta implements TarjetaInterface {
     }
 
     public function generarPago(int $tiempo): Pago {
+        $pago = $this->manejarPago($tiempo);
+
+        if(!$pago->FALLO) {
+            $this->alFinalizarPago($tiempo);
+        }
+
+        return $pago;
+    }
+
+    protected function alFinalizarPago(int $tiempo) {
+        $this->ultTiempo = $tiempo;
+    }
+
+    private function manejarPago(int $tiempo): Pago {
         global $MAX_PLUS;
+
+        if($this->getPrecio($tiempo)->NO_SE_PUEDE) {
+            return Pago::newFallado();
+        }
+
         if($this->getPrecio($tiempo)->PRECIO == 0) {
             return new Pago(false, $this->getPrecio($tiempo),false);
         }
@@ -50,6 +70,10 @@ class Tarjeta implements TarjetaInterface {
 
     public function getPrecio(int $tiempo): Precio {
         global $PRECIO_VIAJE;
-        return new Precio($PRECIO_VIAJE, TipoDeBoleto::Normal);
+        return new Precio(false, $PRECIO_VIAJE, TipoDeBoleto::Normal);
+    }
+
+    protected function getUltTiempo(): int {
+        return $this->ultTiempo;
     }
 }
