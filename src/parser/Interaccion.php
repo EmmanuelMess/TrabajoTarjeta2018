@@ -16,8 +16,6 @@ abstract class Interaccion {
 
     public abstract function correrInteraccion(Tarjeta $tarjeta);
 
-    //DE ACA PARA TESTS ------------------------------------
-
     public function getTiempo(): int {
         return $this->tiempo;
     }

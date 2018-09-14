@@ -2,7 +2,9 @@
 
 namespace TrabajoTarjeta\Parser;
 
-function correrSimulacion(string $json): Tabla {
+use TrabajoTarjeta\Tarjeta;
+
+function correrSimulacion(string $json): string {
     $estados = [];
     $reciever = new Parser($json);
 
@@ -10,9 +12,24 @@ function correrSimulacion(string $json): Tabla {
     $interacciones = $reciever->getInteracciones();
 
     foreach($interacciones as $interaccion) {
-        $interaccion->correrInteraccion($tarjeta);
-        $estados[] = new Estado($tarjeta);
+        $estados[] = interactuarYGenerarEstado($interaccion, $tarjeta);
     }
 
-    return new Tabla($estados);
+    $estadosJson = [];
+
+    foreach($estados as $estado) {
+        $estadosJson[] = $estado->comoArray();
+    }
+
+    return json_encode($estadosJson);
+}
+
+function interactuarYGenerarEstado(Interaccion $interaccion, Tarjeta $tarjeta): Estado {
+    $tiempo = $interaccion->getTiempo();
+    $saldoInicial = $tarjeta->obtenerSaldo();
+    $msg = "";
+
+    $interaccion->correrInteraccion($tarjeta);
+
+    return new Estado($tiempo, $tarjeta->obtenerSaldo(), $tarjeta->obtenerSaldo() - $saldoInicial, $msg);
 }

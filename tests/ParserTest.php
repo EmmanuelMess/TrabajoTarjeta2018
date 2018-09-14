@@ -9,9 +9,9 @@ use TrabajoTarjeta\Tarjeta;
 
 class ParserTest extends TestCase {
     public function testTarjeta() {
-        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_NORMAL));
-        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_MEDIO));
-        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_COMPLETO));
+        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_NORMAL, 22));
+        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_MEDIO, 22));
+        $this->assertInstanceOf(Tarjeta::class, $this->crearTarjeta(Parser::TARJETA_COMPLETO, 22));
     }
 
     private function crearTarjeta(int $tipo, int $id): Tarjeta {
@@ -41,7 +41,7 @@ class ParserTest extends TestCase {
     public function testInteraccionRecarga() {
         $saldo = 10;
         $tiempo = 5555555;
-        $interaccion = $this->crearInteraccion(Interaccion::INTERACCION_PAGO, $saldo, $tiempo);
+        $interaccion = $this->crearInteraccion(Interaccion::INTERACCION_CARGA, $saldo, $tiempo);
         $this->assertInstanceOf(CargaInteraccion::class, $interaccion);
         $this->assertEquals($saldo, $interaccion->getCarga());
         $this->assertEquals($tiempo, $interaccion->getTiempo());

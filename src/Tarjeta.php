@@ -3,7 +3,7 @@
 namespace TrabajoTarjeta;
 
 class Tarjeta implements TarjetaInterface {
-    protected $saldo;
+    protected $saldo = 0;
     protected $boletosPlusUsados;
 
     public function recargar($monto) {
