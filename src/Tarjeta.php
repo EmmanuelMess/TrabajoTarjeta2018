@@ -3,14 +3,14 @@
 namespace TrabajoTarjeta;
 
 class Tarjeta implements TarjetaInterface {
-    protected $saldo;
+    protected $saldo = 0;
     protected $boletosPlusUsados;
 
-    public function recargar($monto) {
+    public function recargar($monto, int $tiempo) {
         global $VALORES_CARGABLES;
 
-        if (!$VALORES_CARGABLES->contains($monto)) return false;
-        $this->saldo += valorCargado($monto);
+        if (!$VALORES_CARGABLES->contains((float) $monto)) return false;
+        $this->saldo += valorCargado((float) $monto);
         return true;
     }
 
@@ -23,7 +23,7 @@ class Tarjeta implements TarjetaInterface {
         return $this->saldo;
     }
 
-    public function disminuirSaldo() {
+    public function disminuirSaldo(int $tiempo) {
         global $MAX_PLUS;
         if($this->getPrecio() == 0) return true;
 
