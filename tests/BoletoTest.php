@@ -28,4 +28,5 @@ class BoletoTest extends TestCase {
         $this->assertEquals(0.0, $boletoCompleto->obtenerValor());
 
     }
+
 }

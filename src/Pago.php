@@ -9,7 +9,7 @@ class Pago {
     public $EXTRAS;
 
     public static function newFallado(): Pago {
-        return new Pago(true, new Precio(0, ""), false);
+        return new Pago(true, new Precio(false,0, ""), false);
     }
 
     public function __construct(bool $fallo, Precio $precio, bool $esPlus, array $extras = []) {
