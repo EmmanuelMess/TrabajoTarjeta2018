@@ -29,20 +29,4 @@ class BoletoTest extends TestCase {
 
     }
 
-    /**
-     * Testeamos que los boletos con diferentes valores correspondan a sus respectivas tarjetas
-     */
-    public function testTarjeta() {
-        $tarjeta = new Tarjeta;
-        $tarjetaMedio = new FranquiciaMedio;
-        $tarjetaCompleta = new FranquiciaCompleta;
-
-        $boleto = new Boleto(NULL, NULL, $tarjeta);
-        $boletoMedio = new Boleto(NULL, NULL, $tarjetaMedio);
-        $boletoCompleto = new Boleto(NULL, NULL, $tarjetaCompleta);
-
-        $this->assertEquals($tarjeta, $boleto->obtenerTarjeta());
-        $this->assertEquals($tarjetaMedio, $boletoMedio->obtenerTarjeta());
-        $this->assertEquals($tarjetaCompleta, $boletoCompleto->obtenerTarjeta());
-    }
 }

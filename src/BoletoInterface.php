@@ -18,4 +18,16 @@ interface BoletoInterface {
      */
     public function obtenerColectivo();
 
+    public function obtenerTarjeta(): TarjetaInterface;
+
+    public function obtenerFechaYHora(): int;
+
+    public function obtenerTipoDeBoleto(): string;
+
+    public function obtenerSaldo(): float;
+
+    public function esViajePlus(): bool;
+
+    public function extras(): array;
+
 }
