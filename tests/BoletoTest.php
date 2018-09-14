@@ -13,15 +13,15 @@ class BoletoTest extends TestCase {
         $colectivo = new Colectivo(NULL, NULL, NULL);
 
         $tarjeta = new Tarjeta;
-        $tarjeta->recargar(100);
+        $tarjeta->recargar(100, 0);
         $tarjetaMedio = new FranquiciaMedio;
-        $tarjetaMedio->recargar(100);
+        $tarjetaMedio->recargar(100, 0);
         $tarjetaCompleta = new FranquiciaCompleta;
-        $tarjetaCompleta->recargar(100);
+        $tarjetaCompleta->recargar(100, 0);
 
-        $boleto = $colectivo->pagarCon($tarjeta);
-        $boletoMedio = $colectivo->pagarCon($tarjetaMedio);
-        $boletoCompleto = $colectivo->pagarCon($tarjetaCompleta);
+        $boleto = $colectivo->pagarCon($tarjeta, 0);
+        $boletoMedio = $colectivo->pagarCon($tarjetaMedio, 0);
+        $boletoCompleto = $colectivo->pagarCon($tarjetaCompleta, 0);
 
         $this->assertEquals($valor, $boleto->obtenerValor());
         $this->assertEquals($valor / 2, $boletoMedio->obtenerValor());
