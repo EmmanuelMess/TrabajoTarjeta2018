@@ -20,17 +20,13 @@ interface TarjetaInterface {
      *
      * @return float
      */
-    public function obtenerSaldo();
-
-    /**
-     * Resta un boleto de precio #getPrecio()
-     */
-    public function disminuirSaldo(int $tiempo);
+    public function obtenerSaldo(): float;
 
     /**
      * Precio del boleto
-     * @return Float
      */
-    public function getPrecio();
+    public function getPrecio(int $tiempo): Precio;
+
+    public function generarPago(int $tiempo): Pago;
 
 }
