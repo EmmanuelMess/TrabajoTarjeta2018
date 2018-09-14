@@ -58,21 +58,21 @@ class TarjetaTest extends TestCase {
         $tarjeta = new Tarjeta;
         $tarjetaMedio = new FranquiciaMedio;
 
-        for($i = 0; $i <= $MAX_PLUS; $i++) {
-            $this->assertTrue($tarjeta->disminuirSaldo(0));
-            $this->assertTrue($tarjetaMedio->disminuirSaldo(0));
+        for($i = 0; $i < $MAX_PLUS; $i++) {
+            $this->assertFalse($tarjeta->generarPago(0)->FALLO);
+            $this->assertFalse($tarjetaMedio->generarPago(0)->FALLO);
         }
 
-        $this->assertFalse($tarjeta->disminuirSaldo(0));
-        $this->assertFalse($tarjetaMedio->disminuirSaldo(0));
+        $this->assertTrue($tarjeta->generarPago(0)->FALLO);
+        $this->assertTrue($tarjetaMedio->generarPago(0)->FALLO);
 
         $tarjeta->recargar(100, 0);
-        $this->assertTrue($tarjeta->disminuirSaldo(0));
-        $this->assertEquals(100 - $tarjeta->getPrecio()*3, $tarjeta->obtenerSaldo());
+        $this->assertFalse($tarjeta->generarPago(0)->FALLO);
+        $this->assertEquals(100 - $tarjeta->getPrecio(0)->PRECIO*3, $tarjeta->obtenerSaldo());
 
         $tarjetaMedio->recargar(100, 0);
-        $this->assertTrue($tarjetaMedio->disminuirSaldo(0));
-        $this->assertEquals(100 - $tarjetaMedio->getPrecio()*3, $tarjetaMedio->obtenerSaldo());
+        $this->assertFalse($tarjetaMedio->generarPago(0)->FALLO);
+        $this->assertEquals(100 - $tarjetaMedio->getPrecio(0)->PRECIO*3, $tarjetaMedio->obtenerSaldo());
     }
 
     public function testFranquiciaCompleta() {
@@ -81,9 +81,9 @@ class TarjetaTest extends TestCase {
         $tarjetaCompleto = new FranquiciaCompleta;
 
         for($i = 0; $i <= $MAX_PLUS; $i++) {
-            $this->assertTrue($tarjetaCompleto->disminuirSaldo(0));
+            $this->assertFalse($tarjetaCompleto->generarPago(0)->FALLO);
         }
 
-        $this->assertTrue($tarjetaCompleto->disminuirSaldo(0));
+        $this->assertFalse($tarjetaCompleto->generarPago(0)->FALLO);
     }
 }

@@ -4,7 +4,7 @@ namespace TrabajoTarjeta;
 
 class Tarjeta implements TarjetaInterface {
     protected $saldo = 0;
-    protected $boletosPlusUsados;
+    protected $boletosPlusUsados = 0;
 
     public function recargar($monto, int $tiempo) {
         global $VALORES_CARGABLES;
@@ -14,39 +14,42 @@ class Tarjeta implements TarjetaInterface {
         return true;
     }
 
-    /**
-     * Devuelve el saldo que le queda a la tarjeta.
-     *
-     * @return float
-     */
-    public function obtenerSaldo() {
+    public function obtenerSaldo(): float {
         return $this->saldo;
     }
 
-    public function disminuirSaldo(int $tiempo) {
+    public function generarPago(int $tiempo): Pago {
         global $MAX_PLUS;
-        if($this->getPrecio() == 0) return true;
+        if($this->getPrecio($tiempo)->PRECIO == 0) {
+            return new Pago(false, $this->getPrecio($tiempo),false);
+        }
 
-        if($this->obtenerSaldo() - $this->getPrecio() < 0) {
-            if($this->boletosPlusUsados > $MAX_PLUS) return false;
+        if($this->obtenerSaldo() - $this->getPrecio($tiempo)->PRECIO < 0) {
+            if($this->boletosPlusUsados >= $MAX_PLUS) return Pago::newFallado();
 
             $this->boletosPlusUsados++;
-            return true;
+            return new Pago(false, $this->getPrecio($tiempo), true);
         }
+
+        $extra = [];
 
         if($this->boletosPlusUsados > 0) {
-            if($this->saldo - 3*$this->getPrecio() < 0) return false;
+            $boletosPlusAPagar = ($this->boletosPlusUsados)*$this->getPrecio($tiempo)->PRECIO;
 
-            $this->saldo -= 2*$this->getPrecio();
+            if($this->saldo - $boletosPlusAPagar + $this->getPrecio($tiempo)->PRECIO < 0) return Pago::newFallado();
+
+            $this->saldo -= $boletosPlusAPagar;
             $this->boletosPlusUsados = 0;
+
+            $extra[] = "Abona viajes plus $".($boletosPlusAPagar);
         }
 
-        $this->saldo -= $this->getPrecio();
-        return true;
+        $this->saldo -= $this->getPrecio($tiempo)->PRECIO;
+        return new Pago(false, $this->getPrecio($tiempo), false, $extra);
     }
 
-    public function getPrecio() {
+    public function getPrecio(int $tiempo): Precio {
         global $PRECIO_VIAJE;
-        return $PRECIO_VIAJE;
+        return new Precio($PRECIO_VIAJE, TipoDeBoleto::Normal);
     }
 }
