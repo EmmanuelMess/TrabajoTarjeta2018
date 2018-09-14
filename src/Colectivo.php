@@ -50,8 +50,8 @@ class Colectivo implements ColectivoInterface {
      *  El boleto generado por el pago del viaje. O FALSE si no hay saldo
      *  suficiente en la tarjeta.
      */
-    public function pagarCon(TarjetaInterface $tarjeta) {
-        if(!$tarjeta->disminuirSaldo()) return false;
+    public function pagarCon(TarjetaInterface $tarjeta, int $tiempo) {
+        if(!$tarjeta->disminuirSaldo($tiempo)) return false;
         return new Boleto($tarjeta->getPrecio(), $this->linea, $tarjeta);
     }
 }
