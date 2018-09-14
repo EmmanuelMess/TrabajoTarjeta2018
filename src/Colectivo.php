@@ -51,7 +51,10 @@ class Colectivo implements ColectivoInterface {
      *  suficiente en la tarjeta.
      */
     public function pagarCon(TarjetaInterface $tarjeta, int $tiempo) {
-        if(!$tarjeta->disminuirSaldo($tiempo)) return false;
-        return new Boleto($tarjeta->getPrecio(), $this->linea, $tarjeta);
+        $transaccion = $tarjeta->generarPago($tiempo);
+
+        if($transaccion->FALLO) return false;
+
+        return new Boleto($this, $tarjeta, $tiempo, $transaccion);
     }
 }

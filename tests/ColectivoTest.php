@@ -28,7 +28,9 @@ class ColectivoTest extends TestCase {
      */
 
     public function testPagarcon() {
-        $valor = 14.80;
+        global $PRECIO_VIAJE;
+        global $PRECIO_MEDIO_BOLETO;
+
         $valorsaldo = 50.;
 
         $linea = '107 Fonavi';
@@ -37,24 +39,44 @@ class ColectivoTest extends TestCase {
 
         $tarjeta = new Tarjeta;
         $tarjeta->recargar($valorsaldo, 0);
-        $tarjetaMedio = new FranquiciaMedio;
-        $tarjetaMedio->recargar($valorsaldo, 0);
-        $tarjetaCompleta = new FranquiciaCompleta;
-        $tarjetaCompleta->recargar($valorsaldo, 0);
-
-        $boleto = new Boleto($valor, $linea, $tarjeta);
-        $boletoMedio = new Boleto($valor/2, $linea, $tarjetaMedio);
-        $boletoCompleto = new Boleto(0.0, $linea, $tarjetaCompleta);
 
         $colectivo = new Colectivo($linea, $empresa, $numero);
 
-        $this->assertEquals($boleto, $colectivo->pagarCon($tarjeta, 0));
-        $this->assertEquals($boletoMedio, $colectivo->pagarCon($tarjetaMedio, 0));
-        $this->assertEquals($boletoCompleto, $colectivo->pagarCon($tarjetaCompleta, 0));
+        $boleto = $colectivo->pagarCon($tarjeta, 0);
 
-        $this->assertEquals($valorsaldo - $boleto->obtenerValor(), $tarjeta->obtenerSaldo());
-        $this->assertEquals($valorsaldo - $boletoMedio->obtenerValor(), $tarjetaMedio->obtenerSaldo());
-        $this->assertEquals($valorsaldo - $boletoCompleto->obtenerValor(), $tarjetaCompleta->obtenerSaldo());
+        $this->assertEquals($colectivo, $boleto->obtenerColectivo());
+        $this->assertEquals($tarjeta->obtenerSaldo(), $boleto->obtenerSaldo());
+        $this->assertEquals($PRECIO_VIAJE, $boleto->obtenerValor());
+        $this->assertEquals(0, $boleto->obtenerFechaYHora());
+        $this->assertEquals($tarjeta, $boleto->obtenerTarjeta());
+        $this->assertEquals(false, $boleto->esViajePlus());
+        $this->assertEquals([], $boleto->extras());
+
+        $tarjetaMedio = new FranquiciaMedio;
+        $tarjetaMedio->recargar($valorsaldo, 0);
+
+        $boletoMedio = $colectivo->pagarCon($tarjetaMedio, 0);
+
+        $this->assertEquals($colectivo, $boletoMedio->obtenerColectivo());
+        $this->assertEquals($tarjetaMedio->obtenerSaldo(), $boletoMedio->obtenerSaldo());
+        $this->assertEquals($PRECIO_MEDIO_BOLETO, $boletoMedio->obtenerValor());
+        $this->assertEquals(0, $boletoMedio->obtenerFechaYHora());
+        $this->assertEquals($tarjetaMedio, $boletoMedio->obtenerTarjeta());
+        $this->assertEquals(false, $boletoMedio->esViajePlus());
+        $this->assertEquals([], $boletoMedio->extras());
+
+        $tarjetaCompleta = new FranquiciaCompleta;
+        $tarjetaCompleta->recargar($valorsaldo, 0);
+
+        $boletoCompleto = $colectivo->pagarCon($tarjetaCompleta, 0);
+
+        $this->assertEquals($colectivo, $boletoCompleto->obtenerColectivo());
+        $this->assertEquals($tarjetaCompleta->obtenerSaldo(), $boletoCompleto->obtenerSaldo());
+        $this->assertEquals(0., $boletoCompleto->obtenerValor());
+        $this->assertEquals(0, $boletoCompleto->obtenerFechaYHora());
+        $this->assertEquals($tarjetaCompleta, $boletoCompleto->obtenerTarjeta());
+        $this->assertEquals(false, $boletoCompleto->esViajePlus());
+        $this->assertEquals([], $boletoCompleto->extras());
     }
 
     public function testPagarsin() {
@@ -65,19 +87,17 @@ class ColectivoTest extends TestCase {
         $numero = 13;
 
         $tarjeta = new Tarjeta;
-        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjeta->disminuirSaldo(0);
+        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjeta->generarPago(0);
 
         $tarjetaMedio = new FranquiciaMedio;
-        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjetaMedio->disminuirSaldo(0);
+        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjetaMedio->generarPago(0);
 
         $tarjetaCompleta = new FranquiciaCompleta;
 
         $colectivo = new Colectivo($linea, $empresa, $numero);
 
-        $boletoCompleto = new Boleto(0.0, $linea, $tarjetaCompleta);
-
         $this->assertEquals(false, $colectivo->pagarCon($tarjeta, 0));
         $this->assertEquals(false, $colectivo->pagarCon($tarjetaMedio, 0));
-        $this->assertEquals($boletoCompleto, $colectivo->pagarCon($tarjetaCompleta, 0));
+        $this->assertNotFalse($colectivo->pagarCon($tarjetaCompleta, 0));
     }
 }
