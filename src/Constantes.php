@@ -4,6 +4,8 @@ namespace TrabajoTarjeta;
 
 use Ds\Set;
 
+global $DIASFERIADOS;
+$DIASFERIADOS = array('01-01','02-12','02-13','03-24','03-30','03-29','03-31','04-02','05-01','05-25','06-17','06-20','07-09','08-20','10-12','11-20','12-08','12-25','12-31');
 global $MAX_PLUS;
 $MAX_PLUS = 2;
 global $PRECIO_VIAJE;
