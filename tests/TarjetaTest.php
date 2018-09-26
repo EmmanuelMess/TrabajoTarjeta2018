@@ -58,32 +58,35 @@ class TarjetaTest extends TestCase {
         $tarjeta = new Tarjeta;
         $tarjetaMedio = new FranquiciaMedio;
 
+        $colectivo = new Colectivo(NULL, NULL, NULL);
+
         $tiempo = 0;
 
         for($i = 0; $i < $MAX_PLUS; $i++) {
-            $this->assertFalse($tarjeta->generarPago($tiempo)->FALLO);
-            $this->assertFalse($tarjetaMedio->generarPago($tiempo)->FALLO);
+            $this->assertFalse($tarjeta->generarPago($tiempo, $colectivo)->FALLO);
+            $this->assertFalse($tarjetaMedio->generarPago($tiempo, $colectivo)->FALLO);
 
             $tiempo += TiempoAyudante::CINCO_MINUTOS;
         }
 
-        $this->assertTrue($tarjeta->generarPago(0)->FALLO);
-        $this->assertTrue($tarjetaMedio->generarPago(0)->FALLO);
+        $this->assertTrue($tarjeta->generarPago(0, $colectivo)->FALLO);
+        $this->assertTrue($tarjetaMedio->generarPago(0, $colectivo)->FALLO);
 
         $tarjeta->recargar(100, 0);
-        $this->assertFalse($tarjeta->generarPago(0)->FALLO);
-        $this->assertEquals(100 - $tarjeta->getPrecio(0)->PRECIO*3, $tarjeta->obtenerSaldo());
+        $this->assertFalse($tarjeta->generarPago(0, $colectivo)->FALLO);
+        $this->assertEquals(100 - $tarjeta->getPrecio(0, $colectivo)->PRECIO*3, $tarjeta->obtenerSaldo());
 
         $tarjetaMedio->recargar(100, 0);
-        $this->assertFalse($tarjetaMedio->generarPago($tiempo)->FALLO);
-        $this->assertEquals(100 - $tarjetaMedio->getPrecio(0)->PRECIO*3, $tarjetaMedio->obtenerSaldo());
+        $this->assertFalse($tarjetaMedio->generarPago($tiempo, $colectivo)->FALLO);
+        $this->assertEquals(100 - $tarjetaMedio->getPrecio(0, $colectivo)->PRECIO*3, $tarjetaMedio->obtenerSaldo());
     }
 
     public function testTiempoPago() {
         $tarjetaMedio = new FranquiciaMedio;
+        $colectivo = new Colectivo(NULL, NULL, NULL);
 
-        $this->assertFalse($tarjetaMedio->generarPago(0)->FALLO);
-        $this->assertTrue($tarjetaMedio->generarPago(0)->FALLO);
+        $this->assertFalse($tarjetaMedio->generarPago(0, $colectivo)->FALLO);
+        $this->assertTrue($tarjetaMedio->generarPago(0, $colectivo)->FALLO);
     }
 
     public function testFranquiciaDosAlDia() {
@@ -91,27 +94,33 @@ class TarjetaTest extends TestCase {
         global $PRECIO_MEDIO_BOLETO;
 
         $tarjetaMedio = new FranquiciaMedio();
+        $colectivo = new Colectivo(NULL, NULL, NULL);
 
         $tarjetaMedio->recargar(100, 0);
 
-        $this->assertEquals($PRECIO_MEDIO_BOLETO, $tarjetaMedio->generarPago(0)->PRECIO->PRECIO);
+        $this->assertEquals($PRECIO_MEDIO_BOLETO,
+            $tarjetaMedio->generarPago(0, $colectivo)->PRECIO->PRECIO);
 
-        $this->assertEquals($PRECIO_MEDIO_BOLETO, $tarjetaMedio->generarPago(TiempoAyudante::CINCO_MINUTOS)->PRECIO->PRECIO);
+        $this->assertEquals($PRECIO_MEDIO_BOLETO,
+            $tarjetaMedio->generarPago(TiempoAyudante::CINCO_MINUTOS, $colectivo)->PRECIO->PRECIO);
 
-        $this->assertEquals($PRECIO_VIAJE, $tarjetaMedio->generarPago(TiempoAyudante::CINCO_MINUTOS*2)->PRECIO->PRECIO);
+        $this->assertEquals($PRECIO_VIAJE,
+            $tarjetaMedio->generarPago(TiempoAyudante::CINCO_MINUTOS*2, $colectivo)->PRECIO->PRECIO);
 
-        $this->assertEquals($PRECIO_MEDIO_BOLETO, $tarjetaMedio->generarPago(TiempoAyudante::UN_DIA*2)->PRECIO->PRECIO);
+        $this->assertEquals($PRECIO_MEDIO_BOLETO,
+            $tarjetaMedio->generarPago(TiempoAyudante::UN_DIA*2, $colectivo)->PRECIO->PRECIO);
     }
 
     public function testFranquiciaCompleta() {
         global $MAX_PLUS;
 
         $tarjetaCompleto = new FranquiciaCompleta;
+        $colectivo = new Colectivo(NULL, NULL, NULL);
 
         for($i = 0; $i <= $MAX_PLUS; $i++) {
-            $this->assertFalse($tarjetaCompleto->generarPago(0)->FALLO);
+            $this->assertFalse($tarjetaCompleto->generarPago(0, $colectivo)->FALLO);
         }
 
-        $this->assertFalse($tarjetaCompleto->generarPago(0)->FALLO);
+        $this->assertFalse($tarjetaCompleto->generarPago(0, $colectivo)->FALLO);
     }
 }

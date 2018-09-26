@@ -86,15 +86,17 @@ class ColectivoTest extends TestCase {
         $empresa = 'Rosario Bus';
         $numero = 13;
 
+        $colectivo = new Colectivo($linea, $empresa, $numero);
+
         $tarjeta = new Tarjeta;
-        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjeta->generarPago(0);
+        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjeta->generarPago(0, $colectivo);
 
         $tarjetaMedio = new FranquiciaMedio;
-        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjetaMedio->generarPago(0);
+        for($i = 0; $i <= $MAX_PLUS; $i++) $tarjetaMedio->generarPago(0, $colectivo);
 
         $tarjetaCompleta = new FranquiciaCompleta;
 
-        $colectivo = new Colectivo($linea, $empresa, $numero);
+
 
         $this->assertEquals(false, $colectivo->pagarCon($tarjeta, 0));
         $this->assertEquals(false, $colectivo->pagarCon($tarjetaMedio, 0));
