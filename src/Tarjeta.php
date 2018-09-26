@@ -177,8 +177,8 @@ class Tarjeta implements TarjetaInterface {
         return $this->saldo;
     }
 
-    public function generarPago(int $tiempo): Pago {
-        $pago = $this->manejarPago($tiempo);
+    public function generarPago(int $tiempo, ColectivoInterface $colectivo): Pago {
+        $pago = $this->manejarPago($tiempo, $colectivo);
 
         if (!$pago->FALLO) {
             $this->alFinalizarPago($tiempo);
@@ -191,30 +191,36 @@ class Tarjeta implements TarjetaInterface {
         $this->ultTiempo = $tiempo;
     }
 
-    private function manejarPago(int $tiempo): Pago {
+    private function manejarPago(int $tiempo, ColectivoInterface $colectivo): Pago {
         global $MAX_PLUS;
 
-        if ($this->getPrecio($tiempo)->NO_SE_PUEDE) {
+        if ($this->getPrecio($tiempo, $colectivo)->NO_SE_PUEDE) {
             return Pago::newFallado();
         }
 
-        if ($this->getPrecio($tiempo)->PRECIO == 0) {
-            return new Pago(false, $this->getPrecio($tiempo), false);
+        if ($this->getPrecio($tiempo, $colectivo)->PRECIO == 0) {
+            return new Pago(false, $this->getPrecio($tiempo, $colectivo), false);
         }
 
-        if ($this->obtenerSaldo() - $this->getPrecio($tiempo)->PRECIO < 0) {
+        if ($this->obtenerSaldo() - $this->getPrecio($tiempo, $colectivo)->PRECIO < 0) {
             if ($this->boletosPlusUsados >= $MAX_PLUS) return Pago::newFallado();
 
             $this->boletosPlusUsados++;
-            return new Pago(false, $this->getPrecio($tiempo), true);
+            return new Pago(false, $this->getPrecio($tiempo, $colectivo), true);
         }
 
         $extra = [];
 
         if ($this->boletosPlusUsados > 0) {
-            $boletosPlusAPagar = ($this->boletosPlusUsados) * $this->getPrecio($tiempo)->PRECIO;
+            $boletosPlusAPagar = ($this->boletosPlusUsados) * $this->getPrecio($tiempo, $colectivo)->PRECIO;
 
-            if ($this->saldo - $boletosPlusAPagar + $this->getPrecio($tiempo)->PRECIO < 0) return Pago::newFallado();
+            if($this->estransbordo($tiempo, $colectivo->linea(), $colectivo->numero())) {
+                $extra[] = "Transbordo";
+            }
+
+            if ($this->saldo - $boletosPlusAPagar + $this->getPrecio($tiempo, $colectivo)->PRECIO < 0) {
+                return Pago::newFallado();
+            }
 
             $this->saldo -= $boletosPlusAPagar;
             $this->boletosPlusUsados = 0;
@@ -222,12 +228,18 @@ class Tarjeta implements TarjetaInterface {
             $extra[] = "Abona viajes plus $" . ($boletosPlusAPagar);
         }
 
-        $this->saldo -= $this->getPrecio($tiempo)->PRECIO;
-        return new Pago(false, $this->getPrecio($tiempo), false, $extra);
+        $this->saldo -= $this->getPrecio($tiempo, $colectivo)->PRECIO;
+        return new Pago(false, $this->getPrecio($tiempo, $colectivo), false, $extra);
     }
 
-    public function getPrecio(int $tiempo): Precio {
+    public function getPrecio(int $tiempo, ColectivoInterface $colectivo): Precio {
         global $PRECIO_VIAJE;
+        global $PRECIO_RELATIVO_TRANSBORDO;
+
+        if($this->estransbordo($tiempo, $colectivo->linea(), $colectivo->numero())) {
+            return new Precio(false, $PRECIO_VIAJE*$PRECIO_RELATIVO_TRANSBORDO, TipoDeBoleto::Trans);
+        }
+
         return new Precio(false, $PRECIO_VIAJE, TipoDeBoleto::Normal);
     }
 

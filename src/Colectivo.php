@@ -51,7 +51,7 @@ class Colectivo implements ColectivoInterface {
      *  suficiente en la tarjeta.
      */
     public function pagarCon(TarjetaInterface $tarjeta, int $tiempo) {
-        $transaccion = $tarjeta->generarPago($tiempo);
+        $transaccion = $tarjeta->generarPago($tiempo, $this);
 
         if($transaccion->FALLO) return false;
 
