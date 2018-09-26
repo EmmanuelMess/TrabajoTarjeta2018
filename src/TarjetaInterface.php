@@ -25,8 +25,8 @@ interface TarjetaInterface {
     /**
      * Precio del boleto
      */
-    public function getPrecio(int $tiempo): Precio;
+    public function getPrecio(int $tiempo, ColectivoInterface $colectivo): Precio;
 
-    public function generarPago(int $tiempo): Pago;
+    public function generarPago(int $tiempo, ColectivoInterface $colectivo): Pago;
 
 }
