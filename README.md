@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018) [![Coverage Status](https://coveralls.io/repos/github/EmmanuelMess/TrabajoTarjeta2018/badge.svg?branch=master)](https://coveralls.io/github/EmmanuelMess/TrabajoTarjeta2018?branch=master)
+[![Build Status](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/EmmanuelMess/TrabajoTarjeta2018) [![Coverage Status](https://coveralls.io/repos/github/EmmanuelMess/TrabajoTarjeta2018/badge.svg?branch=master)](https://coveralls.io/github/EmmanuelMess/TrabajoTarjeta2018?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/EmmanuelMess/TrabajoTarjeta2018/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/EmmanuelMess/TrabajoTarjeta2018/?branch=master)
 
 ### Equipo: Vallejos Vigier y Emmanuel Messulam
 
