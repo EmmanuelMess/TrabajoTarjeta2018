@@ -42,23 +42,14 @@ class Tarjeta implements TarjetaInterface {
             $diapago2prima = $tiempoayuda->saber_dia_ymd($tiempopago);
             $diapago2 = $tiempoayuda->saber_dia($tiempopago);
 
-            //$horapago2 = "23:00:00"; para controlar en el test
-            //	if ("06:00:00"<= "06:27:00"){echo "true";}
-            //	if ("22:00:00">= "06:27:00"){echo "true";}
-            echo $diapago1, " ", $diapago2;
-
               if ($horapago1 > "22:00:00" || $horapago1 < "06:00:00") {
-                    echo "NOCHE";
+
                     $tolerancia += (90 * 60);
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    echo "TOLERANCIA ", $tolerancia;
-                    echo "HORA PAGO 2 ", $horapago2;
                     if ($horapago2 <= $tolerancia) {
-                        echo "NOCHE";
                         $this->transbordo = 0;
                         return true;
                     } else {
-                        echo "false NOCHE";
                         $this->transbordo = 0;
                         return false;
                     }
@@ -66,18 +57,14 @@ class Tarjeta implements TarjetaInterface {
             
             if ($diapago1 == "Lunes" || $diapago1 == "Martes" || $diapago1 == "Miercoles" || $diapago1 == "Jueves" || $diapago1 == "Viernes") {
                 if ($horapago1 >= "06:00:00" && $horapago1 <= "22:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
-                    echo "DIA";
                     $tolerancia += (60 * 60);
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
                     echo "TOLERANCIA ", $tolerancia;
                     echo "HORA PAGO 2 ", $horapago2;
                     if ($horapago2 <= $tolerancia) {
-                        echo "DIA";
-
                         $this->transbordo = 0;
                         return true;
                     } else {
-                        echo "false DIA";
                         $this->transbordo = 0;
                         return false;
                     }
@@ -86,11 +73,8 @@ class Tarjeta implements TarjetaInterface {
 
             if ($diapago1 == "Sabado") {
                 if ($horapago1 >= "06:00:00" && $horapago1 <= "14:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
-                    echo "DIA";
                     $tolerancia += 60 * 60;
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    echo "TOLERANCIA ", $tolerancia;
-                    echo "HORA PAGO 2 ", $horapago2;
                     if ($horapago2 <= $tolerancia) {
                         $this->transbordo = 0;
                         return true;
@@ -100,11 +84,8 @@ class Tarjeta implements TarjetaInterface {
                     }
                 }
                 if ($horapago1 > "14:00:00" && $horapago1 <= "22:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
-                    echo "TARDE";
                     $tolerancia += 90 * 60;
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    echo "TOLERANCIA ", $tolerancia;
-                    echo "HORA PAGO 2 ", $horapago2;
                     if ($horapago2 <= $tolerancia) {
                         $this->transbordo = 0;
                         return true;
@@ -114,16 +95,11 @@ class Tarjeta implements TarjetaInterface {
                     }
                 }
             }
-            //$var = "01-01";
-            //if(in_array($var,$diasferiados)){echo "TTTTTTTT";}
 
             if ($diapago1 == "Domingo" || in_array($diapagoferiado, $diasferiados)) {
                 if ($horapago1 >= "06:00:00" && $horapago1 <= "22:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
-                    echo "TODO EL DIA";
                     $tolerancia += 90 * 60;
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    echo "TOLERANCIA ", $tolerancia;
-                    echo "HORA PAGO 2 ", $horapago2;
                     if ($horapago2 <= $tolerancia) {
                         $this->transbordo = 0;
                         return true;
