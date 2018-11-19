@@ -47,6 +47,23 @@ class Tarjeta implements TarjetaInterface {
             //	if ("22:00:00">= "06:27:00"){echo "true";}
             echo $diapago1, " ", $diapago2;
 
+              if ($horapago1 > "22:00:00" || $horapago1 < "06:00:00") {
+                    echo "NOCHE";
+                    $tolerancia += (90 * 60);
+                    $tolerancia = $tiempoayuda->saber_hora($tolerancia);
+                    echo "TOLERANCIA ", $tolerancia;
+                    echo "HORA PAGO 2 ", $horapago2;
+                    if ($horapago2 <= $tolerancia) {
+                        echo "NOCHE";
+                        $this->transbordo = 0;
+                        return true;
+                    } else {
+                        echo "false NOCHE";
+                        $this->transbordo = 0;
+                        return false;
+                    }
+                }
+            
             if ($diapago1 == "Lunes" || $diapago1 == "Martes" || $diapago1 == "Miercoles" || $diapago1 == "Jueves" || $diapago1 == "Viernes") {
                 if ($horapago1 >= "06:00:00" && $horapago1 <= "22:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
                     echo "DIA";
@@ -61,22 +78,6 @@ class Tarjeta implements TarjetaInterface {
                         return true;
                     } else {
                         echo "false DIA";
-                        $this->transbordo = 0;
-                        return false;
-                    }
-                }
-                if ($horapago1 > "22:00:00" || $horapago1 < "06:00:00") {
-                    echo "NOCHE";
-                    $tolerancia += (90 * 60);
-                    $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    echo "TOLERANCIA ", $tolerancia;
-                    echo "HORA PAGO 2 ", $horapago2;
-                    if ($horapago2 <= $tolerancia) {
-                        echo "NOCHE";
-                        $this->transbordo = 0;
-                        return true;
-                    } else {
-                        echo "false NOCHE";
                         $this->transbordo = 0;
                         return false;
                     }
@@ -112,22 +113,6 @@ class Tarjeta implements TarjetaInterface {
                         return false;
                     }
                 }
-
-                if ($horapago1 > "22:00:00" || $horapago1 < "06:00:00") {
-                    echo "NOCHE";
-                    $tolerancia += 90 * 60;
-                    $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    echo "TOLERANCIA ", $tolerancia;
-                    echo "HORA PAGO 2 ", $horapago2;
-                    if ($horapago2 <= $tolerancia) {
-                        $this->transbordo = 0;
-                        return true;
-                    } else {
-                        $this->transbordo = 0;
-                        return false;
-                    }
-                }
-
             }
             //$var = "01-01";
             //if(in_array($var,$diasferiados)){echo "TTTTTTTT";}
@@ -139,18 +124,6 @@ class Tarjeta implements TarjetaInterface {
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
                     echo "TOLERANCIA ", $tolerancia;
                     echo "HORA PAGO 2 ", $horapago2;
-                    if ($horapago2 <= $tolerancia) {
-                        $this->transbordo = 0;
-                        return true;
-                    } else {
-                        $this->transbordo = 0;
-                        return false;
-                    }
-                }
-
-                if ($horapago1 > "22:00:00" || $horapago1 < "06:00:00") {
-                    $tolerancia += 90 * 60;
-                    $tolerancia = $tiempoayuda->saber_hora($tolerancia);
                     if ($horapago2 <= $tolerancia) {
                         $this->transbordo = 0;
                         return true;
