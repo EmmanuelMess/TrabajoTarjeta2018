@@ -24,7 +24,6 @@ class Tarjeta implements TarjetaInterface {
 
             if ($this->transbordo == 0) {
                 $this->transbordo = $montotiempo;
-                echo date("\n((Y-m-d) (H:i:s))", $montotiempo);
                 return false;
             }
 
@@ -59,13 +58,10 @@ class Tarjeta implements TarjetaInterface {
                 if ($horapago1 >= "06:00:00" && $horapago1 <= "22:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
                     $tolerancia += (60 * 60);
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    echo "TOLERANCIA ", $tolerancia;
-                    echo "HORA PAGO 2 ", $horapago2;
-                    if ($horapago2 <= $tolerancia) {
-                        $this->transbordo = 0;
+                     $this->transbordo = 0;
+                    if ($horapago2 <= $tolerancia) {                     
                         return true;
-                    } else {
-                        $this->transbordo = 0;
+                    } else {                    
                         return false;
                     }
                 }
@@ -75,22 +71,20 @@ class Tarjeta implements TarjetaInterface {
                 if ($horapago1 >= "06:00:00" && $horapago1 <= "14:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
                     $tolerancia += 60 * 60;
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    if ($horapago2 <= $tolerancia) {
-                        $this->transbordo = 0;
+                  $this->transbordo = 0;
+                    if ($horapago2 <= $tolerancia) {                    
                         return true;
-                    } else {
-                        $this->transbordo = 0;
+                    } else {                   
                         return false;
                     }
                 }
                 if ($horapago1 > "14:00:00" && $horapago1 <= "22:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
                     $tolerancia += 90 * 60;
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    if ($horapago2 <= $tolerancia) {
-                        $this->transbordo = 0;
+                    $this->transbordo = 0;
+                    if ($horapago2 <= $tolerancia) {                   
                         return true;
-                    } else {
-                        $this->transbordo = 0;
+                    } else {                    
                         return false;
                     }
                 }
@@ -100,11 +94,10 @@ class Tarjeta implements TarjetaInterface {
                 if ($horapago1 >= "06:00:00" && $horapago1 <= "22:00:00" && $diapago1 == $diapago2 && $diapago1prima == $diapago2prima) {
                     $tolerancia += 90 * 60;
                     $tolerancia = $tiempoayuda->saber_hora($tolerancia);
-                    if ($horapago2 <= $tolerancia) {
-                        $this->transbordo = 0;
+                     $this->transbordo = 0;
+                    if ($horapago2 <= $tolerancia) {                  
                         return true;
-                    } else {
-                        $this->transbordo = 0;
+                    } else {              
                         return false;
                     }
                 }
