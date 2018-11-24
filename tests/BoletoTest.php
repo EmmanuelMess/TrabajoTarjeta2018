@@ -110,7 +110,7 @@ class BoletoTest extends TestCase {
 		$this->assertEquals( false, $tarjeta->estransbordo( $tiempofijo, '143', 'N' ) );
 		//echo date("\n((Y-m-d) (H:i:s))", $tiempofijo);
 		//echo($tiempo->saber_dia($tiempofijo));
-		$tiempofijo += 5400;// (2018-09-30) (07:54:30) DOMINGO TIEMPO FIJO PARA USAR EN LOS TEST NOS PASAMOS DE LOS 90 MIN DEL DIA
+		$tiempofijo += 5400;// (2018-09-30) (07:54:30) DOMINGO TIEMPO FIJO PARA USAR EN LOS TEST NO NOS PASAMOS DE LOS 90 MIN DEL DIA
 		$this->assertEquals( true, $tarjeta->estransbordo( $tiempofijo, '143', 'R' ) );
 		$this->assertEquals( false, $tarjeta->estransbordo( $tiempofijo, '143', 'R' ) );
 		$tiempofijo += 1;// (2018-09-30) (07:54:31) DOMINGO TIEMPO FIJO PARA USAR EN LOS TEST NOS PASAMOS DE LOS 90 MIN DEL DIA
