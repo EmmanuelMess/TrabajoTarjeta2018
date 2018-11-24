@@ -7,34 +7,34 @@ use TrabajoTarjeta\Parser\Parser;
 
 class SimulacionTest extends TestCase {
 
-    public function testSimulacionSimple() {
-        $json =
-            "{
+	public function testSimulacionSimple() {
+		$json =
+			"{
                 \"TarjetaInicial\": {
-                    \"Tipo\": ".Parser::TARJETA_NORMAL.",
+                    \"Tipo\": " . Parser::TARJETA_NORMAL . ",
                     \"Id\": 20
                 }, 
                 \"Interacciones\": [
                     {
-                        \"Tipo\": ".Interaccion::INTERACCION_CARGA.",
+                        \"Tipo\": " . Interaccion::INTERACCION_CARGA . ",
                         \"Carga\": 10,
                         \"Tiempo\": 42
                     }
                 ]
             }";
 
-        $jsonSimulado = correrSimulacion($json);
-        $jsonSupesto =
-            "[".
-                "{".
-                "\"Tiempo\":42,".
-                "\"Saldo\":10,".
-                "\"Diferencia\":10,".
-                "\"Mensaje\":\"\"".
-                "}".
-            "]";
+		$jsonSimulado = correrSimulacion($json);
+		$jsonSupesto =
+			"[".
+				"{".
+				"\"Tiempo\":42,".
+				"\"Saldo\":10,".
+				"\"Diferencia\":10,".
+				"\"Mensaje\":\"\"".
+				"}".
+			"]";
 
 
-        $this->assertEquals($jsonSupesto, $jsonSimulado);
-    }
+		$this->assertEquals( $jsonSupesto, $jsonSimulado );
+	}
 }
